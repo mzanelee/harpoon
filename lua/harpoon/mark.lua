@@ -6,7 +6,7 @@ local log = require("harpoon.dev").log
 -- of procedural all the things
 local M = {}
 local callbacks = {}
-local max_items = 5
+local max_items = 9
 
 -- I am trying to avoid over engineering the whole thing.  We will likely only
 -- need one event emitted
