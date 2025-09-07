@@ -281,7 +281,7 @@ function M.nav_next()
     end
 
     local last = current_index
-    while not M.valid_index(current_index) do
+    while not Marked.valid_index(current_index) do
         current_index = (current_index + 1) % (max_items + 1)
         if current_index == 0 then
             current_index = 1
@@ -291,7 +291,6 @@ function M.nav_next()
         end
     end
 
-    log.info_level("found valid index: ", current_index)
     M.nav_file(current_index)
 end
 
@@ -307,7 +306,7 @@ function M.nav_prev()
     end
 
     local last = current_index
-    while not M.valid_index(current_index) do
+    while not Marked.valid_index(current_index) do
         current_index = (current_index - 1) % (max_items + 1)
         if current_index == 0 then
             current_index = max_items
@@ -317,7 +316,6 @@ function M.nav_prev()
         end
     end
 
-    log.info_level("found valid index: ", current_index)
     M.nav_file(current_index)
 end
 
