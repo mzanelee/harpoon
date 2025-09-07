@@ -188,10 +188,9 @@ function M.nav_file(id)
 
     local mark = Marked.get_marked_file(idx)
     local filename = vim.fs.normalize(mark.filename)
+    local ok, api = pcall(require, "nvim-tree.api")
 
-    if vim.bo.filetype == "NvimTree" then
-        local api = require("nvim-tree.api")
-
+    if ok and vim.bo.filetype == "NvimTree" then
         if not api.tree.is_visible() then
             api.tree.toggle({ focus = true })
         end
