@@ -179,6 +179,7 @@ end
 
 function M.nav_file(id)
     log.trace("nav_file(): Navigating to", id)
+
     local idx = Marked.get_index_of(id)
     if not Marked.valid_index(idx) then
         log.debug("nav_file(): No mark exists for id", id)
@@ -187,6 +188,19 @@ function M.nav_file(id)
 
     local mark = Marked.get_marked_file(idx)
     local filename = vim.fs.normalize(mark.filename)
+
+    if vim.bo.filetype == "NvimTree" then
+        local api = require("nvim-tree.api")
+
+        if not api.tree.is_visible() then
+            api.tree.toggle({ focus = true })
+        end
+
+        api.tree.find_file({ path = filename, focus = true })
+        api.node.open.edit()
+        return
+    end
+
     local buf_id = get_or_create_buffer(filename)
     local set_row = not vim.api.nvim_buf_is_loaded(buf_id)
 
