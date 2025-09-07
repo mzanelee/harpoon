@@ -196,7 +196,7 @@ function M.nav_file(id)
             api.tree.toggle({ focus = true })
         end
 
-        api.tree.find_file({ path = filename, focus = true })
+        api.tree.find_file(filename)
         api.node.open.edit()
         return
     end
