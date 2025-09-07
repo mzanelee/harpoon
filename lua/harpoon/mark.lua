@@ -6,6 +6,7 @@ local log = require("harpoon.dev").log
 -- of procedural all the things
 local M = {}
 local callbacks = {}
+local max_items = 5
 
 -- I am trying to avoid over engineering the whole thing.  We will likely only
 -- need one event emitted
@@ -52,14 +53,14 @@ end
 
 local function get_first_empty_slot()
     log.trace("_get_first_empty_slot()")
-    for idx = 1, M.get_length() do
-        local filename = M.get_marked_file_name(idx)
-        if filename == "" then
+    for idx = 1, max_items do
+        if not M.valid_index(idx) then
             return idx
         end
+        idx = idx + 1
     end
 
-    return M.get_length() + 1
+    return nil
 end
 
 local function get_buf_name(id)
@@ -182,6 +183,10 @@ function M.get_index_of(item, marks)
     return nil
 end
 
+function M.max_items()
+    return max_items
+end
+
 function M.status(bufnr)
     log.trace("status()")
     local buf_name
@@ -210,7 +215,7 @@ function M.valid_index(idx, marks)
     return file_name ~= nil and file_name ~= ""
 end
 
-function M.add_file(file_name_or_buf_id)
+function M.add_file(file_name_or_buf_id, opts)
     filter_filetype()
     local buf_name = get_buf_name(file_name_or_buf_id)
     log.trace("add_file():", buf_name)
@@ -223,7 +228,22 @@ function M.add_file(file_name_or_buf_id)
     validate_buf_name(buf_name)
 
     local found_idx = get_first_empty_slot()
-    harpoon.get_mark_config().marks[found_idx] = create_mark(buf_name)
+    if found_idx == nil then
+        return
+    end
+
+    local mark
+    if opts ~= nil then
+        mark = {
+            filename = buf_name,
+            row = opts.row or 1,
+            col = opts.col or 0,
+        }
+    else
+        mark = create_mark(buf_name)
+    end
+
+    harpoon.get_mark_config().marks[found_idx] = mark
     M.remove_empty_tail(false)
     emit_changed()
 end
@@ -291,7 +311,7 @@ function M.rm_file(file_name_or_buf_id)
         return
     end
 
-    harpoon.get_mark_config().marks[idx] = create_mark("")
+    harpoon.get_mark_config().marks[idx] = nil
     M.remove_empty_tail(false)
     emit_changed()
 end

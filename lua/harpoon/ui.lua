@@ -272,7 +272,7 @@ end
 function M.nav_next()
     log.trace("nav_next()")
     local current_index = Marked.get_current_index()
-    local max_items = 5
+    local max_items = Marked.max_items
 
     if current_index == nil then
         current_index = 1
@@ -297,7 +297,7 @@ end
 function M.nav_prev()
     log.trace("nav_prev()")
     local current_index = Marked.get_current_index()
-    local max_items = 5
+    local max_items = Marked.max_items()
 
     if current_index == nil then
         current_index = max_items
