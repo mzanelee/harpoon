@@ -212,7 +212,7 @@ function M.valid_index(idx, marks)
     end
 
     local file_name = M.get_marked_file_name(idx, marks)
-    return file_name ~= nil and file_name ~= ""
+    return file_name ~= nil and file_name ~= "" and file_name ~= "(empty)"
 end
 
 function M.add_file(file_name_or_buf_id, opts)
