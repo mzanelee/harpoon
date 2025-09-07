@@ -10,10 +10,8 @@ local cache_config = string.format("%s/harpoon.json", data_path)
 
 local M = {}
 
-local the_primeagen_harpoon = vim.api.nvim_create_augroup(
-    "THE_PRIMEAGEN_HARPOON",
-    { clear = true }
-)
+local the_primeagen_harpoon =
+    vim.api.nvim_create_augroup("THE_PRIMEAGEN_HARPOON", { clear = true })
 
 vim.api.nvim_create_autocmd({ "BufLeave", "VimLeave" }, {
     callback = function()
@@ -139,12 +137,14 @@ local function ensure_correct_config(config)
     local marks = proj.mark.marks
 
     for idx, mark in pairs(marks) do
-        if type(mark) == "string" then
-            mark = { filename = mark }
-            marks[idx] = mark
-        end
+        if mark ~= nil then
+            if type(mark) == "string" then
+                mark = { filename = mark }
+                marks[idx] = mark
+            end
 
-        marks[idx].filename = utils.normalize_path(mark.filename)
+            marks[idx].filename = utils.normalize_path(mark.filename)
+        end
     end
 
     return config
