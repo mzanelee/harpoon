@@ -272,7 +272,7 @@ end
 function M.nav_next()
     log.trace("nav_next()")
     local current_index = Marked.get_current_index()
-    local number_of_items = Marked.get_length()
+    local max_items = 5
 
     if current_index == nil then
         current_index = 1
@@ -280,25 +280,40 @@ function M.nav_next()
         current_index = current_index + 1
     end
 
-    if current_index > number_of_items then
-        current_index = 1
+    local last = current_index
+    while not M.valid_index(current_index) do
+        current_index = (current_index + 1) % (max_items + 1)
+        if current_index == 0 then
+            current_index = 1
+        end
+        if current_index == last then
+            return
+        end
     end
+
     M.nav_file(current_index)
 end
 
 function M.nav_prev()
     log.trace("nav_prev()")
     local current_index = Marked.get_current_index()
-    local number_of_items = Marked.get_length()
+    local max_items = 5
 
     if current_index == nil then
-        current_index = number_of_items
+        current_index = max_items
     else
         current_index = current_index - 1
     end
 
-    if current_index < 1 then
-        current_index = number_of_items
+    local last = current_index
+    while not M.valid_index(current_index) do
+        current_index = (current_index - 1) % (max_items + 1)
+        if current_index == 0 then
+            current_index = max_items
+        end
+        if current_index == last then
+            return
+        end
     end
 
     M.nav_file(current_index)
