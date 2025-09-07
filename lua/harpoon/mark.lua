@@ -311,7 +311,7 @@ function M.rm_file(file_name_or_buf_id)
         return
     end
 
-    harpoon.get_mark_config().marks[idx] = nil
+    harpoon.get_mark_config().marks[idx] = create_mark("")
     M.remove_empty_tail(false)
     emit_changed()
 end
