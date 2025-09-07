@@ -192,6 +192,7 @@ function M.nav_file(id)
 
     local old_bufnr = vim.api.nvim_get_current_buf()
 
+    log.debug("old_bufnr", old_bufnr)
     vim.api.nvim_set_current_buf(buf_id)
     vim.api.nvim_buf_set_option(buf_id, "buflisted", true)
     if set_row and mark.row and mark.col then
