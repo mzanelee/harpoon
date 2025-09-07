@@ -137,14 +137,12 @@ local function ensure_correct_config(config)
     local marks = proj.mark.marks
 
     for idx, mark in pairs(marks) do
-        if mark ~= nil then
-            if type(mark) == "string" then
-                mark = { filename = mark }
-                marks[idx] = mark
-            end
-
-            -- marks[idx].filename = utils.normalize_path(mark.filename)
+        if type(mark) == "string" then
+            mark = { filename = mark }
+            marks[idx] = mark
         end
+
+        marks[idx].filename = utils.normalize_path(mark.filename)
     end
 
     return config
