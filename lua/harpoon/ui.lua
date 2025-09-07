@@ -291,6 +291,7 @@ function M.nav_next()
         end
     end
 
+    log.info_level("found valid index: ", current_index)
     M.nav_file(current_index)
 end
 
@@ -316,6 +317,7 @@ function M.nav_prev()
         end
     end
 
+    log.info_level("found valid index: ", current_index)
     M.nav_file(current_index)
 end
 
