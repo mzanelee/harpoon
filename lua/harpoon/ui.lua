@@ -196,9 +196,7 @@ function M.nav_file(id)
         end
 
         api.tree.find_file(filename)
-        if api.tree.get_node_under_cursor().nodes == nil then
-            api.node.open.edit()
-        end
+        api.node.open.edit()
 
         return
     end
